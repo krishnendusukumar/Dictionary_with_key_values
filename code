@@ -1,0 +1,112 @@
+//Program to convert dictionary with key-value pair into day-value pair with day as the sum of all the values//
+
+//.........................................................................Program start.........................................................................//
+
+var dict = {
+  "2020-01-01":6,
+  "2020-01-04":12,
+  "2020-01-05":14,
+  "2020-01-06":2,
+  "2020-01-07":4,
+};
+
+
+console.log("Input dictionary is "); 
+console.log(dict);
+var mp = new Map();
+var key;
+
+/*storing all dictionary values in map for ease in calculation*/
+for(key in dict) 
+{
+  var date = new Date(key).getDay();
+//   console.log(date.getDay());
+  if(!mp.has(date)) {
+      mp.set(date, dict[key]);
+  }
+  else {
+      var x = mp.get(date);
+      x += dict[key];
+      mp.set(date, x);
+  }
+}
+  
+  
+  /*iterating through the map whose indices are week number and key is the value of input dictionary*/
+  
+  for(var i = 2; i < 7; i++) {
+      if(!mp.has(i)) {
+          var j = i;
+          var n = 0;
+          while(!mp.has(j)) {
+              j = (j+1)%7;
+              n++;
+          }
+          var diff = (mp.get(j) - mp.get(i-1))/(n+1);
+          while(i<j) {
+              mp.set(i, (mp.get(i-1)+diff));
+              i++;
+          }
+      }
+  }
+  
+  
+  // creating a weekday array to have day according day number
+  var weekday = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+  var res = {};
+  key  = 0;
+  for(var i = 1; i < 8; i++) {
+      var j = (i) % 7;
+      var index = weekday[j];
+      res[index] = mp.get(j);
+  }
+
+  console.log("Ouput dictionary is ");
+  console.log(res)
+
+//................................................................Program ends................................................................................//
+
+
+
+//Unit test case 1://
+
+
+/*
+
+sample unit test case1: 
+
+var dict = {
+  "2020-01-01":4,
+  "2020-01-02":4,
+  "2020-01-03":6,
+  "2020-01-04":8,
+  "2020-01-05":2,
+  "2020-01-06":-6,
+  "2020-01-07":2,
+  "2020-01-08":-2,
+};
+
+
+*/
+
+
+
+//Unit test case 2: //
+
+
+/*
+
+sample unit test case2: 
+
+var dict = {
+  "2020-01-01":6,
+  "2020-01-04":12,
+  "2020-01-05":14,
+  "2020-01-06":2,
+  "2020-01-07":4,
+};
+
+
+
+*/
+  
